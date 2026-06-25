@@ -196,32 +196,118 @@
 
         .hero-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
 
-        /* Categorías */
-        .categorias-section { position: relative; display: flex; align-items: center; padding: 10px 0 20px; }
+        /* BARRA DE HERRAMIENTAS (Dropdowns y Vistas) */
+        .barra-herramientas {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .filtros-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex-grow: 1;
+        }
+
+        .custom-select {
+            padding: 10px 35px 10px 15px;
+            border-radius: 20px;
+            border: none;
+            /* Flecha personalizada al estilo Apple */
+            background: var(--card-bg) url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='12' height='12' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='%231d1d1f'/></g></svg>") no-repeat right 15px center;
+            appearance: none;
+            -webkit-appearance: none;
+            box-shadow: var(--shadow);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .custom-select:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+
+        .vistas-container {
+            display: flex;
+            gap: 5px;
+            background: var(--card-bg);
+            padding: 5px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-vista {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .btn-vista.activo, .btn-vista:hover {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        /* Galería BASE */
+        .grid-productos { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            padding-bottom: 20px; 
+        }
+
+        /* CLASES DE VISTA CONTROLADAS POR JS */
+        .grid-productos.vista-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-productos.vista-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-productos.vista-2 { grid-template-columns: repeat(2, 1fr); }
         
-        .cat-scroll-container {
-            display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth;
-            padding: 10px 40px 10px 5px; margin: -10px 0; 
+        /* Modificación especial para la Lista 1 Columna */
+        .grid-productos.vista-1 { 
+            grid-template-columns: 1fr; 
+        }
+        .grid-productos.vista-1 .card-producto {
+            flex-direction: row;
+            align-items: center;
+            padding: 15px 20px;
+            gap: 20px;
+        }
+        .grid-productos.vista-1 .card-img-container {
+            width: 160px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        .grid-productos.vista-1 .card-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .grid-productos.vista-1 .card-actions {
+            margin-top: 0;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            min-width: 140px;
+        }
+        .grid-productos.vista-1 .btn-agregar {
             width: 100%;
         }
-        .cat-scroll-container::-webkit-scrollbar { display: none; }
 
-        .cat-pill {
-            background-color: var(--card-bg); padding: 8px 18px; border-radius: 20px; font-size: 0.95rem;
-            box-shadow: var(--shadow); cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: 0.2s;
-            font-weight: 500;
-        }
-        .cat-pill:hover, .cat-pill.activa { background-color: var(--text-main); color: white; }
-
-        .btn-scroll-cat {
-            position: absolute; right: 0;
-            background: linear-gradient(90deg, rgba(245,245,247,0) 0%, rgba(245,245,247,1) 40%, rgba(245,245,247,1) 100%);
-            border: none; height: 100%; padding-left: 20px; cursor: pointer; font-size: 1.2rem; color: var(--text-main);
-        }
-
-        /* Galería */
-        .grid-productos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding-bottom: 20px; }
-
+        /* TARJETAS DE PRODUCTO NORMALES */
         .card-producto {
             background-color: var(--card-bg); border-radius: var(--border-radius); box-shadow: var(--shadow);
             padding: 15px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
@@ -230,7 +316,7 @@
 
         .card-img-container { 
             width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px; margin-bottom: 15px; 
-            background: #e5e5ea; /* Placeholder para carga rápida */
+            background: #e5e5ea;
         }
         .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
 
@@ -245,7 +331,6 @@
         }
         .btn-agregar:hover:not(:disabled) { background-color: #005bb5; }
 
-        /* Estilo para botón Agotado */
         .btn-agotado {
             background-color: #a1a1a6 !important;
             cursor: not-allowed !important;
@@ -297,7 +382,7 @@
         }
         .btn-up:hover { background-color: #d1d1d6; }
 
-        /* Modales */
+        /* Modales Generales */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000;
@@ -320,7 +405,7 @@
 
         #loader-pantalla { background: rgba(245, 245, 247, 0.9); z-index: 9999; flex-direction: column; }
         
-        /* Modal Producto Slider Nativo (Scroll Snap) */
+        /* Modal Producto Slider Nativo */
         .prod-modal-layout { display: flex; gap: 30px; }
         .prod-modal-izq { flex: 1; position: relative; }
         
@@ -332,7 +417,7 @@
         .slider-track {
             display: flex; width: 100%; height: 100%; overflow-x: auto; 
             scroll-snap-type: x mandatory; scroll-behavior: smooth;
-            scrollbar-width: none; -ms-overflow-style: none; /* Ocultar scrollbar */
+            scrollbar-width: none; -ms-overflow-style: none;
         }
         .slider-track::-webkit-scrollbar { display: none; }
         
@@ -355,7 +440,6 @@
 
         .prod-modal-der { flex: 1; display: flex; flex-direction: column; }
         .modal-desc { color: var(--text-muted); line-height: 1.6; margin: 15px 0; flex-grow: 1; }
-        .modal-cat-tags { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
         
         #btn-modal-agregar { 
             width: 100%; height: 50px; padding: 0 20px; font-size: 1.1rem; border-radius: 14px; 
@@ -364,9 +448,24 @@
             align-items: center; justify-content: center;
         }
 
-        /* Lightbox */
-        #lightbox-modal .modal-content { background: transparent; box-shadow: none; max-width: 90vw; display: flex; justify-content: center; overflow: hidden; }
-        #lightbox-img { max-width: 100%; max-height: 85vh; border-radius: 10px; object-fit: contain; }
+        /* LIGHTBOX ESTILO APPLE */
+        #lightbox-modal { background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
+        #lightbox-modal .modal-content { 
+            background: transparent; box-shadow: none; max-width: 95vw; 
+            display: flex; justify-content: center; padding: 0; margin: 0;
+            overflow: visible; position: relative;
+        }
+        #lightbox-img { 
+            max-width: 100%; max-height: 85vh; border-radius: 12px; object-fit: contain; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .btn-cerrar-lightbox { 
+            position: absolute; top: -15px; right: -15px; background: rgba(255,255,255,0.2); 
+            color: white; border: none; width: 40px; height: 40px; border-radius: 50%; 
+            font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; z-index: 10; transition: 0.2s; backdrop-filter: blur(5px);
+        }
+        .btn-cerrar-lightbox:hover { background: rgba(255,255,255,0.4); }
 
         /* Listas Cart/Fav */
         .list-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; gap: 15px; }
@@ -388,10 +487,11 @@
         /* RESPONSIVE DESIGN */
         @media (min-width: 769px) {
             #btn-modal-agregar { width: auto; padding: 12px 30px; align-self: flex-start; }
+            .btn-cerrar-lightbox { top: -20px; right: -40px; width: 50px; height: 50px; font-size: 2rem; }
         }
         
         @media (max-width: 1024px) { 
-            .grid-productos { grid-template-columns: repeat(3, 1fr); } 
+            .grid-productos:not([class*="vista-"]) { grid-template-columns: repeat(3, 1fr); } 
             
             #logo-text { display: none; } 
             #btn-wa, #btn-ig { display: none; } 
@@ -400,56 +500,34 @@
             .logo-container { flex-grow: 1; }
 
             .search-wrapper { 
-                flex-grow: 0; 
-                position: static; 
-                width: auto; 
-                max-width: none;
-                background: transparent; 
-                transform: none; 
-                margin-right: 5px; 
+                flex-grow: 0; position: static; width: auto; max-width: none;
+                background: transparent; transform: none; margin-right: 5px; 
             }
 
             .btn-search-mobile { display: flex; }
             .search-input-container { display: none; width: 100%; }
             
-            /* BARRA BUSQUEDA RESPONSIVE AL 100% */
             .search-wrapper.active {
-                position: fixed !important; 
-                top: 0 !important; 
-                left: 0 !important; 
-                right: 0 !important; 
-                width: auto !important; 
-                max-width: none !important; 
-                height: var(--header-height) !important; 
-                background-color: #ffffff !important; 
-                z-index: 99999 !important; 
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                padding: 0 20px !important; 
-                box-sizing: border-box !important;
-                margin: 0 !important;
+                position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; 
+                width: auto !important; max-width: none !important; height: var(--header-height) !important; 
+                background-color: #ffffff !important; z-index: 99999 !important; 
+                display: flex !important; align-items: center !important; justify-content: center !important;
+                padding: 0 20px !important; box-sizing: border-box !important; margin: 0 !important;
             }
             
             .search-wrapper.active .btn-search-mobile { display: none !important; }
-            
-            .search-wrapper.active .search-input-container { 
-                display: flex !important; 
-                width: 100% !important; 
-                max-width: none !important; 
-                align-items: center !important;
-            }
-            
-            .search-wrapper.active .btn-cerrar-busqueda { 
-                display: block !important; 
-                position: static !important; 
-                flex-shrink: 0 !important; 
-                margin-left: 15px !important;
-            }
+            .search-wrapper.active .search-input-container { display: flex !important; width: 100% !important; max-width: none !important; align-items: center !important; }
+            .search-wrapper.active .btn-cerrar-busqueda { display: block !important; position: static !important; flex-shrink: 0 !important; margin-left: 15px !important; }
         }
         
         @media (max-width: 768px) {
-            .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .grid-productos:not([class*="vista-"]) { grid-template-columns: repeat(2, 1fr); }
+            
+            /* Ajustes para la vista de 1 columna (Lista) en celulares */
+            .grid-productos.vista-1 .card-producto { flex-direction: column; gap: 10px; padding: 15px; }
+            .grid-productos.vista-1 .card-img-container { width: 100%; }
+            .grid-productos.vista-1 .card-actions { align-items: stretch; }
+
             .prod-modal-layout { flex-direction: column; }
             .list-item { flex-wrap: wrap; }
             .list-item-total { width: auto; margin-left: auto; }
@@ -461,10 +539,13 @@
             .hero-title { font-size: 2rem; }
             .hero-buttons { gap: 10px; }
             .hero-btn { font-size: 0.85rem; padding: 8px 15px; }
+            
+            .btn-cerrar-lightbox { top: 10px; right: 10px; background: rgba(0,0,0,0.5); }
+            #lightbox-modal .modal-content { max-width: 100vw; }
         }
         
         @media (max-width: 480px) {
-            .grid-productos { grid-template-columns: 1fr; }
+            .grid-productos:not([class*="vista-"]) { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -472,7 +553,7 @@
 
     <header>
         <div class="contenedor header-content">
-            <div class="logo-container" onclick="simularCargaYFiltrar('Todas')">
+            <div class="logo-container" onclick="simularCargaYFiltrar()">
                 <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhKi5Sf-Logd4OChKYtf9lAdksDkk95jseoaKvVMJDVETF4zaEwlQijKq_EKTQqUsrUGZkOU2ePkLaQ_mWo5l56J-BRt2Bbk3zobGlsZWMZ44J3HXRl4stLYcxwm0oEeEtTrtvwbCzaKjHZmw4N-ZhsTkMRyOmem0dWaXEOc5UEINLxm5w5P2jZVPw439s" alt="Logo" class="logo-img">
                 <span id="logo-text">Hexlayer</span>
             </div>
@@ -483,7 +564,7 @@
                 </button>
                 <div class="search-input-container">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
+                    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="filtrarYOrdenar('search')">
                     <button class="btn-cerrar-busqueda" onclick="toggleMobileSearch(false)"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
@@ -537,12 +618,34 @@
             <p>Sincronizando catálogo...</p>
         </div>
 
-        <div class="categorias-section" id="seccion-categorias" style="display:none;">
-            <div class="cat-scroll-container" id="cat-scroll"></div>
-            <button class="btn-scroll-cat" onclick="scrollCategorias()"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="barra-herramientas" id="barra-herramientas" style="display:none;">
+            <div class="filtros-container">
+                <select id="select-categoria" class="custom-select" onchange="filtrarYOrdenar('cat')">
+                    <option value="Todas">Categorías (Todas)</option>
+                </select>
+
+                <select id="select-alfa" class="custom-select" onchange="filtrarYOrdenar('alfa')">
+                    <option value="default">Orden Alfabético</option>
+                    <option value="az">Ascendente A-Z</option>
+                    <option value="za">Descendente Z-A</option>
+                </select>
+
+                <select id="select-precio" class="custom-select" onchange="filtrarYOrdenar('precio')">
+                    <option value="default">Precio</option>
+                    <option value="asc">Más bajo primero</option>
+                    <option value="desc">Más alto primero</option>
+                </select>
+            </div>
+            
+            <div class="vistas-container">
+                <button class="btn-vista activo" id="btn-vista-4" onclick="cambiarVista(4)" title="Cuadrícula 4x4"><i class="fa-solid fa-border-all"></i></button>
+                <button class="btn-vista" id="btn-vista-3" onclick="cambiarVista(3)" title="Cuadrícula 3x3"><i class="fa-solid fa-table-cells"></i></button>
+                <button class="btn-vista" id="btn-vista-2" onclick="cambiarVista(2)" title="Lista 2 columnas"><i class="fa-solid fa-table-cells-large"></i></button>
+                <button class="btn-vista" id="btn-vista-1" onclick="cambiarVista(1)" title="Lista 1 columna"><i class="fa-solid fa-list"></i></button>
+            </div>
         </div>
 
-        <div class="grid-productos" id="galeria"></div>
+        <div class="grid-productos vista-4" id="galeria"></div>
 
         <div class="contenedor-ver-mas" id="cont-ver-mas" style="display:none;">
             <button class="btn-ver-mas" onclick="cargarMas()">Ver más...</button>
@@ -589,7 +692,6 @@
                     <h2 id="modal-titulo" style="margin-top:0;"></h2>
                     <h3 id="modal-precio" style="color: var(--accent); margin: 0; font-size: 1.5rem;"></h3>
                     <p id="modal-desc" class="modal-desc"></p>
-                    <div class="modal-cat-tags" id="modal-tags"></div>
                     <button id="btn-modal-agregar">Agregar al carrito</button>
                 </div>
             </div>
@@ -598,7 +700,7 @@
 
     <div id="lightbox-modal" class="modal-overlay" onclick="cerrarModal(event, 'lightbox-modal')">
         <div class="modal-content">
-            <button class="btn-cerrar" onclick="cerrarModalForce('lightbox-modal')"><i class="fa-solid fa-xmark"></i></button>
+            <button class="btn-cerrar-lightbox" onclick="cerrarModalForce('lightbox-modal')"><i class="fa-solid fa-xmark"></i></button>
             <img id="lightbox-img" src="">
         </div>
     </div>
@@ -627,38 +729,31 @@
 
     <script>
         // CONFIGURACIÓN PRINCIPAL
-        const MOSTRAR_HERO = true; // Cambia a "false" si quieres ocultar el video y título grande
+        const MOSTRAR_HERO = true;
         const TELEFONO = "593983488809";
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
 
         let baseDatos = [];
         let carrito = [];
         let favoritos = [];
-        let categoriaFiltro = "Todas";
         let limiteMostrado = 16;
         let productosFiltrados = [];
         let sliderImages = [];
-        let sliderIndex = 0;
 
         window.onload = () => {
-            // Activar/Desactivar Hero
-            if (!MOSTRAR_HERO) {
-                document.getElementById('hero-section').style.display = 'none';
-            }
+            if (!MOSTRAR_HERO) document.getElementById('hero-section').style.display = 'none';
 
             Papa.parse(SHEET_URL, {
                 download: true,
                 header: true,
                 complete: function(results) {
                     document.getElementById('mensaje-carga').style.display = 'none';
-                    document.getElementById('seccion-categorias').style.display = 'flex';
+                    document.getElementById('barra-herramientas').style.display = 'flex';
 
-                    // LÓGICA DE ESTADO (Invisible y Agotado)
                     baseDatos = results.data
                         .filter(row => {
                             if (!row.PRODUCTO || row.PRODUCTO.trim() === '') return false;
                             const estado = row.ESTADO ? row.ESTADO.trim().toLowerCase() : "";
-                            // Si el estado es "invisible", ignoramos el producto
                             return estado !== "invisible";
                         })
                         .map((row, index) => {
@@ -678,9 +773,8 @@
                             };
                         });
 
-                    productosFiltrados = baseDatos;
-                    generarPillsCategorias();
-                    renderizarProductos(productosFiltrados);
+                    generarDropdownCategorias();
+                    filtrarYOrdenar('inicio');
                 },
                 error: function(err) {
                     document.getElementById('mensaje-carga').innerHTML = "<p style='color:red;'>Error al conectar con la base de datos.</p>";
@@ -697,7 +791,7 @@
             } else {
                 wrapper.classList.remove('active');
                 input.value = "";
-                filtrarProductos();
+                filtrarYOrdenar('search');
             }
         }
         
@@ -711,58 +805,93 @@
             }
         });
 
-        function simularCargaYFiltrar(cat) {
+        function simularCargaYFiltrar() {
             const loader = document.getElementById('loader-pantalla');
             loader.classList.add('activo');
-            
             setTimeout(() => {
-                cerrarYFiltrarCat(cat);
-                loader.classList.remove('activo');
+                document.getElementById('select-categoria').value = "Todas";
+                document.getElementById('select-alfa').value = "default";
+                document.getElementById('select-precio').value = "default";
                 document.getElementById('buscador').value = ""; 
+                filtrarYOrdenar('inicio');
+                loader.classList.remove('activo');
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }, 600);
         }
 
+        // --- SISTEMA DE DROPDOWN DE CATEGORÍAS ---
         function obtenerCategoriasUnicas() {
             let categorias = new Set();
             baseDatos.forEach(p => {
                 if(p.categoria) p.categoria.split(',').forEach(c => categorias.add(c.trim()));
             });
-            return Array.from(categorias);
+            // Ordenar alfabéticamente las categorías
+            return Array.from(categorias).sort((a, b) => a.localeCompare(b));
         }
 
-        function generarPillsCategorias() {
-            const catScroll = document.getElementById("cat-scroll");
+        function generarDropdownCategorias() {
+            const select = document.getElementById("select-categoria");
             const categorias = obtenerCategoriasUnicas();
-            catScroll.innerHTML = `<div class="cat-pill ${categoriaFiltro === 'Todas' ? 'activa' : ''}" onclick="filtrarPorCat('Todas')">Todas</div>`;
+            
+            // Limpiar y mantener opción base
+            select.innerHTML = `<option value="Todas">Categorías (Todas)</option>`;
+            
             categorias.forEach(cat => {
                 if(cat !== "") {
-                    const activa = (cat === categoriaFiltro) ? "activa" : "";
-                    catScroll.innerHTML += `<div class="cat-pill ${activa}" onclick="filtrarPorCat('${cat}')">${cat}</div>`;
+                    select.innerHTML += `<option value="${cat}">${cat}</option>`;
                 }
             });
         }
 
-        function scrollCategorias() { document.getElementById('cat-scroll').scrollBy({left: 200, behavior: 'smooth'}); }
-
-        function filtrarPorCat(cat) {
-            categoriaFiltro = cat;
-            generarPillsCategorias();
-            filtrarProductos();
+        // --- SISTEMA DE VISTAS (Grid Layout) ---
+        function cambiarVista(columnas) {
+            const galeria = document.getElementById("galeria");
+            
+            // Quitar vistas anteriores
+            galeria.classList.remove("vista-4", "vista-3", "vista-2", "vista-1");
+            galeria.classList.add(`vista-${columnas}`);
+            
+            // Cambiar botones activos
+            document.querySelectorAll(".btn-vista").forEach(btn => btn.classList.remove("activo"));
+            document.getElementById(`btn-vista-${columnas}`).classList.add("activo");
         }
 
-        function cerrarYFiltrarCat(cat) {
-            cerrarModalForce('modal-producto');
-            filtrarPorCat(cat);
-            document.getElementById('seccion-categorias').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function filtrarProductos() {
+        // --- SISTEMA MAESTRO DE FILTRADO Y ORDEN ---
+        function filtrarYOrdenar(trigger) {
             const texto = document.getElementById("buscador").value.toLowerCase();
-            productosFiltrados = baseDatos.filter(p => {
+            const catSelec = document.getElementById("select-categoria").value;
+            const selectAlfa = document.getElementById("select-alfa");
+            const selectPrecio = document.getElementById("select-precio");
+
+            // Si mueves Alfabético, el de Precio se resetea para no chocar (y viceversa)
+            if (trigger === 'alfa' && selectAlfa.value !== 'default') {
+                selectPrecio.value = 'default';
+            } else if (trigger === 'precio' && selectPrecio.value !== 'default') {
+                selectAlfa.value = 'default';
+            }
+
+            // 1. Filtrar por texto y categoría
+            let resultado = baseDatos.filter(p => {
                 const matchTexto = p.producto.toLowerCase().includes(texto);
-                const matchCat = categoriaFiltro === "Todas" || (p.categoria && p.categoria.includes(categoriaFiltro));
+                const matchCat = catSelec === "Todas" || (p.categoria && p.categoria.includes(catSelec));
                 return matchTexto && matchCat;
             });
+
+            // 2. Aplicar el orden
+            if (selectAlfa.value === "az") {
+                resultado.sort((a, b) => a.producto.localeCompare(b.producto));
+            } else if (selectAlfa.value === "za") {
+                resultado.sort((a, b) => b.producto.localeCompare(a.producto));
+            } else if (selectPrecio.value === "asc") {
+                resultado.sort((a, b) => a.precio - b.precio);
+            } else if (selectPrecio.value === "desc") {
+                resultado.sort((a, b) => b.precio - a.precio);
+            } else {
+                // Orden por defecto (como viene en la hoja original)
+                resultado.sort((a, b) => a.id - b.id);
+            }
+
+            productosFiltrados = resultado;
             limiteMostrado = 16;
             renderizarProductos(productosFiltrados);
         }
@@ -781,12 +910,10 @@
                 const esFav = favoritos.includes(p.id) ? 'activo' : '';
                 const esAgotado = p.estado === 'agotado';
                 
-                // Lógica Visual del Botón según Estado
                 const btnHtml = esAgotado 
                     ? `<button class="btn-agregar btn-agotado" onclick="event.stopPropagation();" disabled>Agotado</button>`
                     : `<button class="btn-agregar" onclick="event.stopPropagation(); agregarAlCarrito(${p.id})">Agregar</button>`;
                 
-                // Carga ultrarrápida: lazy loading añadido
                 contenedor.innerHTML += `
                     <div class="card-producto" onclick="abrirProducto(${p.id})">
                         <div class="card-img-container">
@@ -820,24 +947,16 @@
                 favoritos.splice(index, 1);
                 if(btnElement) btnElement.classList.remove('activo');
             }
-            
             actualizarIconoFavoritos();
-            
-            if(document.getElementById("modal-favoritos").classList.contains("activo")) {
-                renderizarFavoritos();
-            }
+            if(document.getElementById("modal-favoritos").classList.contains("activo")) renderizarFavoritos();
         }
 
         function actualizarIconoFavoritos() {
             const badge = document.getElementById("fav-badge");
             const btn = document.getElementById("btn-fav-header");
             
-            if (favoritos.length > 0) {
-                badge.style.display = "flex";
-                badge.textContent = favoritos.length;
-            } else {
-                badge.style.display = "none";
-            }
+            if (favoritos.length > 0) { badge.style.display = "flex"; badge.textContent = favoritos.length; } 
+            else { badge.style.display = "none"; }
             
             btn.classList.remove("animar-pop");
             void btn.offsetWidth; 
@@ -886,17 +1005,7 @@
             document.getElementById("modal-titulo").textContent = p.producto;
             document.getElementById("modal-precio").textContent = `$${p.precio.toFixed(2)}`;
             document.getElementById("modal-desc").textContent = p.descripcion || "Sin descripción.";
-            
-            const tagsDiv = document.getElementById("modal-tags");
-            tagsDiv.innerHTML = "";
-            if(p.categoria) {
-                p.categoria.split(',').forEach(c => {
-                    const catClean = c.trim();
-                    tagsDiv.innerHTML += `<span class="cat-pill" style="font-size:0.8rem; padding:4px 8px; box-shadow:none; border:1px solid #ddd;" onclick="cerrarYFiltrarCat('${catClean}')">${catClean}</span>`;
-                });
-            }
 
-            // Lógica de Botón Modal (Agotado vs Disponible)
             const btnModal = document.getElementById("btn-modal-agregar");
             if (p.estado === 'agotado') {
                 btnModal.textContent = "Agotado";
@@ -914,29 +1023,28 @@
             }
 
             sliderImages = p.imgArray;
-            sliderIndex = 0;
-            
             generarEstructuraSlider();
             document.getElementById("modal-producto").classList.add("activo");
         }
 
-        // --- SLIDER NATIVO MEJORADO ---
+        // --- SLIDER NATIVO DE IMÁGENES ---
         function generarEstructuraSlider() {
             const track = document.getElementById("slider-track");
             const dotsDiv = document.getElementById("slider-dots");
             
             track.innerHTML = "";
             dotsDiv.innerHTML = "";
-            // Resetear scroll siempre al inicio al abrir
             track.scrollLeft = 0; 
             
             sliderImages.forEach((imgSrc, i) => {
                 const img = document.createElement("img");
                 img.src = imgSrc;
-                // Carga ultrarrápida: La primera imagen carga de golpe, las siguientes esperan
-                img.loading = i === 0 ? "eager" : "lazy";
+                
+                // CRÍTICO: Eliminar lazy load para que el navegador descargue todo en segundo plano al abrir el modal
+                img.loading = "eager"; 
                 img.decoding = "async";
                 
+                // Click para abrir el lightbox grande
                 img.onclick = () => abrirLightbox(i); 
                 track.appendChild(img);
                 
@@ -948,19 +1056,16 @@
                 }
             });
 
-            // Actualizar bolitas automáticamente basado en el scroll físico del usuario
             track.onscroll = () => {
                 const width = track.clientWidth;
-                // Redondear para saber en qué imagen estamos ubicados
-                sliderIndex = Math.round(track.scrollLeft / width);
+                const indexScroll = Math.round(track.scrollLeft / width);
                 
                 Array.from(dotsDiv.children).forEach((dot, i) => {
-                    dot.className = `dot ${i === sliderIndex ? 'activo' : ''}`;
+                    dot.className = `dot ${i === indexScroll ? 'activo' : ''}`;
                 });
             };
         }
 
-        // Hacer click en un dot
         function irAImagen(index) { 
             const track = document.getElementById("slider-track");
             track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
@@ -973,9 +1078,7 @@
 
         // Modales
         function cerrarModal(e, id) { if (e.target.id === id) cerrarModalForce(id); }
-        function cerrarModalForce(id) {
-            document.getElementById(id).classList.remove("activo");
-        }
+        function cerrarModalForce(id) { document.getElementById(id).classList.remove("activo"); }
 
         // --- CARRITO ---
         function agregarAlCarrito(id) {
@@ -1001,12 +1104,8 @@
             
             const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
             
-            if (totalItems > 0) {
-                badge.style.display = "flex";
-                badge.textContent = totalItems;
-            } else {
-                badge.style.display = "none";
-            }
+            if (totalItems > 0) { badge.style.display = "flex"; badge.textContent = totalItems; } 
+            else { badge.style.display = "none"; }
             
             btn.classList.remove("animar-pop");
             void btn.offsetWidth; 
@@ -1084,7 +1183,7 @@
                 mensaje += `- ${item.cantidad} unidad(es) de ${item.nombre} ($${totalItem.toFixed(2)})%0A`;
             });
 
-            mensaje += `%0A*Total:* $${total.toFixed(2)}`;
+            mensaje += `%0A*Total:* $${total.toFixed(2)}%0A%0A*Envío:* $7.00`;
 
             const url = `https://wa.me/${TELEFONO}?text=${mensaje}`;
             window.open(url, '_blank');
