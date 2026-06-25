@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Hexlayer 3D</title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -26,6 +15,7 @@
             --accent: #0071e3;
             --border-radius: 14px;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08);
+            --header-height: 70px;
         }
 
         body {
@@ -48,44 +38,167 @@
             flex: 1;
         }
 
-        /* Header */
+        /* HEADER y BARRA DE BÚSQUEDA */
         header {
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid #e5e5ea;
-            padding: 10px 0;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
         }
 
-        .header-content { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-        .logo-container { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.2rem; }
-        .logo-img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; background-color: #ccc; }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
 
-        .search-bar { flex-grow: 1; max-width: 400px; position: relative; }
-        .search-bar input {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .logo-img { width: 40px; height: 40px; object-fit: contain; }
+
+        .search-wrapper {
+            flex-grow: 1;
+            max-width: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-container input {
             width: 100%; padding: 10px 15px 10px 35px; border-radius: 20px; border: none;
             background-color: #e3e3e8; font-size: 1rem; outline: none; box-sizing: border-box;
         }
-        .search-bar i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        .header-actions { display: flex; align-items: center; gap: 15px; }
-        .btn-icon { background: none; border: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; position: relative; transition: transform 0.2s; }
+        .search-input-container .search-icon {
+            position: absolute; left: 12px; color: var(--text-muted);
+        }
+
+        .btn-cerrar-busqueda {
+            display: none; background: none; border: none; position: absolute; right: 10px;
+            font-size: 1.2rem; color: var(--text-muted); cursor: pointer;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 15px; z-index: 2; }
+        .btn-icon { background: none; border: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; position: relative; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
         .btn-icon:hover { color: var(--accent); }
         .btn-icon-fav { color: #ff3b30; }
 
         .badge {
             position: absolute; top: -5px; right: -8px; background-color: #ff3b30; color: white;
             font-size: 0.75rem; font-weight: bold; border-radius: 50%; width: 20px; height: 20px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center; border: 2px solid white;
         }
+
+        .btn-search-mobile { display: none; }
 
         @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
         .animar-pop { animation: pop 0.3s ease-in-out; }
 
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.6) blur(2px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .hero-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin: 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin: 10px 0 30px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .hero-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+
         /* Categorías */
-        .categorias-section { position: relative; display: flex; align-items: center; padding: 20px 0; }
+        .categorias-section { position: relative; display: flex; align-items: center; padding: 10px 0 20px; }
         
         .cat-scroll-container {
             display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth;
@@ -95,8 +208,9 @@
         .cat-scroll-container::-webkit-scrollbar { display: none; }
 
         .cat-pill {
-            background-color: var(--card-bg); padding: 6px 16px; border-radius: 15px; font-size: 0.95rem;
+            background-color: var(--card-bg); padding: 8px 18px; border-radius: 20px; font-size: 0.95rem;
             box-shadow: var(--shadow); cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: 0.2s;
+            font-weight: 500;
         }
         .cat-pill:hover, .cat-pill.activa { background-color: var(--text-main); color: white; }
 
@@ -165,9 +279,7 @@
         .footer-socials a:hover { color: var(--accent); transform: translateY(-3px); }
 
         .footer-bottom { border-top: 1px solid #d2d2d7; }
-        .footer-bottom-content {
-            display: flex; justify-content: space-between; align-items: center; padding: 20px 0;
-        }
+        .footer-bottom-content { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
         .footer-bottom p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
         .btn-up {
             background-color: #e5e5ea; color: var(--text-main); border: none; width: 40px; height: 40px;
@@ -179,15 +291,17 @@
         /* Modales */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 1000;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 1000;
             justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
         }
         .modal-overlay.activo { display: flex; opacity: 1; }
+        
         .modal-content {
-            background: var(--card-bg); border-radius: 20px; width: 90%; max-width: 800px;
+            background: var(--card-bg); border-radius: 20px; width: 90%; max-width: 850px;
             max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             padding: 30px; box-sizing: border-box;
         }
+        
         .btn-cerrar {
             position: absolute; top: 15px; right: 15px; background: #f0f0f5; border: none;
             width: 30px; height: 30px; border-radius: 50%; font-size: 1.2rem; cursor: pointer;
@@ -195,14 +309,27 @@
         }
         .btn-cerrar:hover { background: #e5e5ea; }
 
-        /* Modal Producto */
+        /* Pantalla Carga Falsa */
+        #loader-pantalla { background: rgba(245, 245, 247, 0.9); z-index: 9999; flex-direction: column; }
+        
+        /* Modal Producto Slider Mejorado */
         .prod-modal-layout { display: flex; gap: 30px; }
         .prod-modal-izq { flex: 1; position: relative; }
-        .slider-container { 
+        
+        .slider-viewport { 
             width: 100%; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; 
-            position: relative; cursor: zoom-in; 
+            position: relative; touch-action: pan-y; cursor: grab;
         }
-        .slider-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
+        .slider-viewport:active { cursor: grabbing; }
+        
+        .slider-track {
+            display: flex; width: 100%; height: 100%;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .slider-track img {
+            width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;
+            pointer-events: none; /* Previene bugs al arrastrar */
+        }
         
         .slider-dots { 
             position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
@@ -229,14 +356,14 @@
         #btn-modal-agregar:hover { background-color: #005bb5; }
 
         /* Lightbox */
-        #lightbox-modal .modal-content { background: transparent; box-shadow: none; max-width: 90vw; display: flex; justify-content: center; }
-        #lightbox-img { max-width: 100%; max-height: 85vh; border-radius: 10px; }
+        #lightbox-modal .modal-content { background: transparent; box-shadow: none; max-width: 90vw; display: flex; justify-content: center; overflow: hidden; }
+        #lightbox-img { max-width: 100%; max-height: 85vh; border-radius: 10px; object-fit: contain; }
 
         /* Listas Cart/Fav */
         .list-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; gap: 15px; }
-        .list-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+        .list-item-img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; flex-shrink: 0; cursor: pointer; }
         .list-item-info { flex-grow: 1; min-width: 0; }
-        .list-item-title { font-weight: 600; margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .list-item-title { font-weight: 600; margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
         .list-item-price { color: var(--text-muted); font-size: 0.9rem; margin: 0; }
         .cart-controls { display: flex; align-items: center; gap: 10px; background: #f0f0f5; border-radius: 15px; padding: 5px 10px; flex-shrink: 0; }
         .cart-controls button { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--accent); }
@@ -249,16 +376,72 @@
             display: flex; justify-content: center; align-items: center; gap: 10px;
         }
 
-        /* Responsive */
+        /* RESPONSIVE DESIGN */
+        @media (min-width: 769px) {
+            #btn-modal-agregar { width: auto; padding: 12px 30px; align-self: flex-start; }
+        }
+        
         @media (max-width: 1024px) { .grid-productos { grid-template-columns: repeat(3, 1fr); } }
+        
         @media (max-width: 768px) {
-            .grid-productos { grid-template-columns: repeat(2, 1fr); }
+            .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             .prod-modal-layout { flex-direction: column; }
             .list-item { flex-wrap: wrap; }
             .list-item-total { width: auto; margin-left: auto; }
             .footer-top { flex-direction: column; text-align: center; }
             .footer-profile { flex-direction: column; }
             .footer-bottom-content { flex-direction: column; gap: 15px; text-align: center; }
+            
+            /* Ajustes Hero Celular */
+            .hero { min-height: 300px; border-radius: 0 0 20px 20px; margin-bottom: 15px; }
+            .hero-title { font-size: 2rem; }
+            .hero-buttons { gap: 10px; }
+            .hero-btn { font-size: 0.85rem; padding: 8px 15px; }
+
+            /* Ajustes Header Celular */
+            #logo-text { display: none; } 
+            #btn-wa, #btn-ig { display: none; } 
+            
+            /* 1. Ajustamos el header para que la lupa se acomode naturalmente */
+            .header-content { justify-content: flex-start; }
+            .logo-container { flex-grow: 1; } /* Esto empuja la lupa y los otros íconos a la derecha */
+
+            /* 2. Botón de lupa normal (integrado con los demás íconos) */
+            .btn-search-mobile { display: flex; }
+            
+            .search-wrapper { 
+                position: static; /* Ya no flota rompiendo el diseño, se queda en la fila */
+                width: auto; 
+                background: transparent; 
+                transform: none; 
+                margin-right: 5px; /* Pequeña separación con el corazón */
+            }
+
+            .search-input-container { display: none; width: 100%; }
+            
+            /* 3. Estado Activo: La barra se expande al 100% tapando todo el header */
+            .search-wrapper.active {
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100%; 
+                background: rgba(255, 255, 255, 0.98); /* Fondo semitransparente igual al header */
+                padding: 0 20px; 
+                box-sizing: border-box;
+                z-index: 10;
+                display: flex;
+                align-items: center;
+                margin: 0; /* Anula el margen anterior */
+            }
+            
+            .search-wrapper.active .btn-search-mobile { display: none; }
+            .search-wrapper.active .search-input-container { display: flex; width: 100%; }
+            .search-wrapper.active .btn-cerrar-busqueda { display: block; right: 15px; }
+        }
+        
+        @media (max-width: 480px) {
+            .grid-productos { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -266,24 +449,31 @@
 
     <header>
         <div class="contenedor header-content">
-            <div class="logo-container">
+            <div class="logo-container" onclick="simularCargaYFiltrar('Todas')">
                 <img src="https://blogger.googleusercontent.com/img/a/AVvXsEhKi5Sf-Logd4OChKYtf9lAdksDkk95jseoaKvVMJDVETF4zaEwlQijKq_EKTQqUsrUGZkOU2ePkLaQ_mWo5l56J-BRt2Bbk3zobGlsZWMZ44J3HXRl4stLYcxwm0oEeEtTrtvwbCzaKjHZmw4N-ZhsTkMRyOmem0dWaXEOc5UEINLxm5w5P2jZVPw439s" alt="Logo" class="logo-img">
-                <span>Hexlayer</span>
+                <span id="logo-text">Hexlayer</span>
             </div>
             
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
+            <div class="search-wrapper" id="search-wrapper">
+                <button class="btn-icon btn-search-mobile" id="btn-search-mobile" onclick="toggleMobileSearch(true)">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <div class="search-input-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="buscador" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
+                    <button class="btn-cerrar-busqueda" onclick="toggleMobileSearch(false)"><i class="fa-solid fa-xmark"></i></button>
+                </div>
             </div>
 
             <div class="header-actions">
-                <button class="btn-icon btn-icon-fav" onclick="abrirFavoritos()">
+                <button class="btn-icon btn-icon-fav" id="btn-fav-header" onclick="abrirFavoritos()">
                     <i class="fa-solid fa-heart"></i>
+                    <span class="badge" id="fav-badge" style="display:none;">0</span>
                 </button>
-                <button class="btn-icon" onclick="window.open('https://wa.me/593983488809', '_blank')">
+                <button class="btn-icon" id="btn-wa" onclick="window.open('https://wa.me/593983488809', '_blank')">
                     <i class="fa-brands fa-whatsapp"></i>
                 </button>
-                <button class="btn-icon" onclick="window.open('https://instagram.com', '_blank')">
+                <button class="btn-icon" id="btn-ig" onclick="window.open('https://instagram.com', '_blank')">
                     <i class="fa-brands fa-instagram"></i>
                 </button>
                 <button class="btn-icon" id="btn-carrito" onclick="abrirCarrito()">
@@ -294,10 +484,34 @@
         </div>
     </header>
 
+    <div id="loader-pantalla" class="modal-overlay">
+        <div style="text-align:center;">
+            <i class="fa-solid fa-circle-notch fa-spin fa-3x" style="color:var(--accent);"></i>
+            <h3 style="margin-top:15px; color:var(--text-main);">Cargando...</h3>
+        </div>
+    </div>
+
+    <section class="hero">
+        <video class="hero-video" src="https://videos.pexels.com/video-files/19378586/19378586-hd_1920_1080_25fps.mp4" autoplay loop muted playsinline></video>
+        <div class="hero-content">
+            <div class="hero-title-container">
+                <h1 class="hero-title">Hexlayer 3D</h1>
+            </div>
+            <p class="hero-subtitle">Transforma conceptos En objetos extraordinarios</p>
+            <div class="hero-buttons">
+                <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-envelope"></i> Contacto</a>
+                <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-truck"></i> Envíos</a>
+                <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-file-invoice-dollar"></i> Cotizar</a>
+                <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-layer-group"></i> Filamento</a>
+                <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-shield-halved"></i> Pago Seguro</a>
+            </div>
+        </div>
+    </section>
+
     <div class="contenedor">
         <div id="mensaje-carga" style="text-align: center; padding: 40px; color: var(--text-muted);">
             <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
-            <p>Cargando inventario...</p>
+            <p>Sincronizando catálogo...</p>
         </div>
 
         <div class="categorias-section" id="seccion-categorias" style="display:none;">
@@ -330,7 +544,7 @@
         </div>
         <div class="footer-bottom">
             <div class="contenedor footer-bottom-content">
-                <p>© Hexlayer All Rights Reserved. 2025 Creado por ThemeXpose</p>
+                <p>© Hexlayer All Rights Reserved. 2026 Creado por César Aguilar</p>
                 <button class="btn-up" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                     <i class="fa-solid fa-chevron-up"></i>
                 </button>
@@ -343,8 +557,9 @@
             <button class="btn-cerrar" onclick="cerrarModalForce('modal-producto')"><i class="fa-solid fa-xmark"></i></button>
             <div class="prod-modal-layout">
                 <div class="prod-modal-izq">
-                    <div class="slider-container" onmouseenter="pausarSlider()" onmouseleave="reanudarSlider()">
-                        <img id="slider-img" class="slider-img" src="" onclick="abrirLightbox()">
+                    <div class="slider-viewport" id="slider-viewport" onmouseenter="pausarSlider()" onmouseleave="reanudarSlider()">
+                        <div class="slider-track" id="slider-track">
+                            </div>
                         <div class="slider-dots" id="slider-dots"></div>
                     </div>
                 </div>
@@ -402,7 +617,9 @@
         let sliderImages = [];
         let sliderIndex = 0;
         let sliderInterval = null;
+        const TIEMPO_SLIDER = 10000; // 10 segundos
 
+        // Carga de Excel
         window.onload = () => {
             Papa.parse(SHEET_URL, {
                 download: true,
@@ -434,10 +651,47 @@
                     renderizarProductos(productosFiltrados);
                 },
                 error: function(err) {
-                    document.getElementById('mensaje-carga').innerHTML = "<p style='color:red;'>Error al cargar los datos.</p>";
+                    document.getElementById('mensaje-carga').innerHTML = "<p style='color:red;'>Error al conectar con la base de datos.</p>";
                 }
             });
         };
+
+        // Búsqueda en Móvil
+        function toggleMobileSearch(estado) {
+            const wrapper = document.getElementById('search-wrapper');
+            const input = document.getElementById('buscador');
+            if(estado) {
+                wrapper.classList.add('active');
+                setTimeout(() => input.focus(), 100);
+            } else {
+                wrapper.classList.remove('active');
+                input.value = "";
+                filtrarProductos();
+            }
+        }
+        
+        // Cerrar búsqueda móvil si hacen clic fuera
+        document.addEventListener('click', function(event) {
+            const wrapper = document.getElementById('search-wrapper');
+            const header = document.querySelector('header');
+            if (window.innerWidth <= 768 && wrapper.classList.contains('active')) {
+                if (!header.contains(event.target)) {
+                    toggleMobileSearch(false);
+                }
+            }
+        });
+
+        // Logo = Carga Falsa + Todas
+        function simularCargaYFiltrar(cat) {
+            const loader = document.getElementById('loader-pantalla');
+            loader.classList.add('activo');
+            
+            setTimeout(() => {
+                cerrarYFiltrarCat(cat);
+                loader.classList.remove('activo');
+                document.getElementById('buscador').value = ""; // Limpiar busqueda al ir al inicio
+            }, 600);
+        }
 
         function obtenerCategoriasUnicas() {
             let categorias = new Set();
@@ -470,7 +724,8 @@
         function cerrarYFiltrarCat(cat) {
             cerrarModalForce('modal-producto');
             filtrarPorCat(cat);
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            // Hacer scroll hasta las categorías para no quedarse en el hero
+            document.getElementById('seccion-categorias').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function filtrarProductos() {
@@ -488,6 +743,10 @@
             const contenedor = document.getElementById("galeria");
             contenedor.innerHTML = "";
             const productosAMostrar = productos.slice(0, limiteMostrado);
+
+            if(productosAMostrar.length === 0) {
+                contenedor.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: gray;'>No se encontraron productos.</p>";
+            }
 
             productosAMostrar.forEach(p => {
                 const primeraImg = p.imgArray[0];
@@ -517,16 +776,39 @@
 
         function cargarMas() { limiteMostrado += 16; renderizarProductos(productosFiltrados); }
 
-        function toggleCorazon(id, btn) {
+        // --- FAVORITOS ---
+        function toggleCorazon(id, btnElement) {
             const index = favoritos.indexOf(id);
             if (index === -1) {
                 favoritos.push(id);
-                if(btn) btn.classList.add('activo');
+                if(btnElement) btnElement.classList.add('activo');
             } else {
                 favoritos.splice(index, 1);
-                if(btn) btn.classList.remove('activo');
+                if(btnElement) btnElement.classList.remove('activo');
             }
-            if(document.getElementById("modal-favoritos").classList.contains("activo")) renderizarFavoritos();
+            
+            actualizarIconoFavoritos();
+            
+            if(document.getElementById("modal-favoritos").classList.contains("activo")) {
+                renderizarFavoritos();
+            }
+        }
+
+        function actualizarIconoFavoritos() {
+            const badge = document.getElementById("fav-badge");
+            const btn = document.getElementById("btn-fav-header");
+            
+            if (favoritos.length > 0) {
+                badge.style.display = "flex";
+                badge.textContent = favoritos.length;
+            } else {
+                badge.style.display = "none";
+            }
+            
+            // Animación Pop
+            btn.classList.remove("animar-pop");
+            void btn.offsetWidth; 
+            btn.classList.add("animar-pop");
         }
 
         function abrirFavoritos() {
@@ -546,11 +828,10 @@
                 if(!p) return;
                 const primeraImg = p.imgArray[0];
 
-                /* Se agregó flex-grow: 0 y flex-shrink: 0 para que el ancho no varíe */
                 container.innerHTML += `
                     <div class="list-item">
-                        <img src="${primeraImg}" class="list-item-img">
-                        <div class="list-item-info">
+                        <img src="${primeraImg}" class="list-item-img" onclick="cerrarModalForce('modal-favoritos'); abrirProducto(${p.id})">
+                        <div class="list-item-info" onclick="cerrarModalForce('modal-favoritos'); abrirProducto(${p.id})">
                             <h4 class="list-item-title" title="${p.producto}">${p.producto}</h4>
                             <p class="list-item-price">$${p.precio.toFixed(2)}</p>
                         </div>
@@ -561,7 +842,7 @@
             });
         }
 
-        // --- LÓGICA DE PRODUCTO Y SLIDER ---
+        // --- SLIDER MEJORADO CON DESLIZAMIENTO ---
         function abrirProducto(id) {
             const p = baseDatos.find(x => x.id === id);
             
@@ -585,6 +866,8 @@
 
             sliderImages = p.imgArray;
             sliderIndex = 0;
+            
+            generarEstructuraSlider();
             actualizarSlider();
             pausarSlider();
             reanudarSlider();
@@ -592,37 +875,121 @@
             document.getElementById("modal-producto").classList.add("activo");
         }
 
-        function actualizarSlider() {
-            document.getElementById("slider-img").src = sliderImages[sliderIndex];
+        function generarEstructuraSlider() {
+            const track = document.getElementById("slider-track");
             const dotsDiv = document.getElementById("slider-dots");
+            
+            track.innerHTML = "";
             dotsDiv.innerHTML = "";
             
+            sliderImages.forEach((imgSrc, i) => {
+                // Generar Imágenes
+                const img = document.createElement("img");
+                img.src = imgSrc;
+                // Si hacen clic sin arrastrar, abre lightbox
+                img.onclick = (e) => {
+                    // Evitar que abra si el usuario arrastró
+                    if (!isDragging) abrirLightbox();
+                };
+                track.appendChild(img);
+                
+                // Generar Dots
+                if (sliderImages.length > 1) {
+                    dotsDiv.style.display = "flex";
+                    dotsDiv.innerHTML += `<div class="dot ${i === 0 ? 'activo' : ''}" onclick="event.stopPropagation(); irAImagen(${i})"></div>`;
+                } else {
+                    dotsDiv.style.display = "none";
+                }
+            });
+        }
+
+        function actualizarSlider() {
+            const track = document.getElementById("slider-track");
+            const dotsDiv = document.getElementById("slider-dots");
+            
+            // Mover la pista suavemente usando transform translateX
+            track.style.transform = `translateX(-${sliderIndex * 100}%)`;
+            
+            // Actualizar bolitas
             if (sliderImages.length > 1) {
-                dotsDiv.style.display = "flex";
-                sliderImages.forEach((_, i) => {
-                    dotsDiv.innerHTML += `<div class="dot ${i === sliderIndex ? 'activo' : ''}" onclick="event.stopPropagation(); irAImagen(${i})"></div>`;
+                Array.from(dotsDiv.children).forEach((dot, i) => {
+                    dot.className = `dot ${i === sliderIndex ? 'activo' : ''}`;
                 });
-            } else {
-                dotsDiv.style.display = "none";
             }
         }
 
-        function siguienteImagen() { sliderIndex = (sliderIndex + 1) % sliderImages.length; actualizarSlider(); }
+        function siguienteImagen() { 
+            sliderIndex = (sliderIndex + 1) % sliderImages.length; 
+            actualizarSlider(); 
+        }
+        function anteriorImagen() { 
+            sliderIndex = (sliderIndex - 1 + sliderImages.length) % sliderImages.length; 
+            actualizarSlider(); 
+        }
         function irAImagen(index) { sliderIndex = index; actualizarSlider(); }
+        
         function pausarSlider() { if(sliderInterval) clearInterval(sliderInterval); }
-        function reanudarSlider() { if (sliderImages.length > 1) sliderInterval = setInterval(siguienteImagen, 3000); }
+        function reanudarSlider() { if (sliderImages.length > 1) sliderInterval = setInterval(siguienteImagen, TIEMPO_SLIDER); }
 
         function abrirLightbox() { 
             document.getElementById("lightbox-img").src = sliderImages[sliderIndex]; 
             document.getElementById("lightbox-modal").classList.add("activo"); 
         }
 
+        // --- LÓGICA TÁCTIL (SWIPE) PARA EL SLIDER ---
+        const sliderViewport = document.getElementById('slider-viewport');
+        let startX = 0, currentX = 0;
+        let isDragging = false;
+
+        sliderViewport.addEventListener('touchstart', touchStart);
+        sliderViewport.addEventListener('touchmove', touchMove);
+        sliderViewport.addEventListener('touchend', touchEnd);
+        
+        // Soporte básico de mouse (arrastrar)
+        sliderViewport.addEventListener('mousedown', touchStart);
+        sliderViewport.addEventListener('mousemove', touchMove);
+        sliderViewport.addEventListener('mouseup', touchEnd);
+        sliderViewport.addEventListener('mouseleave', () => { if(isDragging) touchEnd(event); });
+
+        function touchStart(e) {
+            if(sliderImages.length <= 1) return;
+            isDragging = false;
+            pausarSlider();
+            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        }
+
+        function touchMove(e) {
+            if(sliderImages.length <= 1 || startX === 0) return;
+            currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+            const diff = startX - currentX;
+            // Si el movimiento es notable, se considera arrastre
+            if(Math.abs(diff) > 10) isDragging = true;
+        }
+
+        function touchEnd(e) {
+            if(sliderImages.length <= 1 || startX === 0) return;
+            
+            const diff = startX - currentX;
+            // Si deslizó más de 50px
+            if(Math.abs(diff) > 50 && isDragging) {
+                if(diff > 0) siguienteImagen(); // Swipe izquierda
+                else anteriorImagen(); // Swipe derecha
+            }
+            
+            startX = 0; currentX = 0;
+            // Un pequeño timeout antes de resetear isDragging para que onclick no se dispare
+            setTimeout(() => { isDragging = false; }, 50); 
+            reanudarSlider();
+        }
+
+        // --- MANEJO GENERAL MODALES ---
         function cerrarModal(e, id) { if (e.target.id === id) cerrarModalForce(id); }
         function cerrarModalForce(id) {
             document.getElementById(id).classList.remove("activo");
             if(id === 'modal-producto') pausarSlider();
         }
 
+        // --- CARRITO ---
         function agregarAlCarrito(id) {
             const prod = baseDatos.find(p => p.id === id);
             const itemExistente = carrito.find(i => i.id === id);
@@ -643,7 +1010,16 @@
         function actualizarIconoCarrito() {
             const badge = document.getElementById("cart-badge");
             const btn = document.getElementById("btn-carrito");
-            badge.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            
+            if (totalItems > 0) {
+                badge.style.display = "flex";
+                badge.textContent = totalItems;
+            } else {
+                badge.style.display = "none";
+            }
+            
             btn.classList.remove("animar-pop");
             void btn.offsetWidth; 
             btn.classList.add("animar-pop");
@@ -671,8 +1047,8 @@
 
                 container.innerHTML += `
                     <div class="list-item">
-                        <img src="${item.img}" class="list-item-img">
-                        <div class="list-item-info">
+                        <img src="${item.img}" class="list-item-img" onclick="cerrarModalForce('modal-carrito'); abrirProducto(${item.id})">
+                        <div class="list-item-info" onclick="cerrarModalForce('modal-carrito'); abrirProducto(${item.id})">
                             <h4 class="list-item-title" title="${item.nombre}">${item.nombre}</h4>
                             <p class="list-item-price">$${item.precio.toFixed(2)} c/u</p>
                         </div>
@@ -727,8 +1103,4 @@
         }
     </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
