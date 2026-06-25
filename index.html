@@ -38,7 +38,7 @@
             flex: 1;
         }
 
-        /* HEADER y BARRA DE BÚSQUEDA */
+        /* HEADER */
         header {
             background-color: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(15px);
@@ -196,11 +196,11 @@
 
         .hero-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
 
-        /* BARRA DE HERRAMIENTAS (Dropdowns y Vistas) */
+        /* BARRA HERRAMIENTAS (Categorías + Orden) */
         .barra-herramientas {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             gap: 15px;
             padding: 10px 0 20px;
             flex-wrap: wrap;
@@ -210,14 +210,13 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            flex-grow: 1;
+            width: 100%;
         }
 
         .custom-select {
             padding: 10px 35px 10px 15px;
             border-radius: 20px;
             border: none;
-            /* Flecha personalizada al estilo Apple */
             background: var(--card-bg) url("data:image/svg+xml;utf8,<svg viewBox='0 0 140 140' width='12' height='12' xmlns='http://www.w3.org/2000/svg'><g><path d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='%231d1d1f'/></g></svg>") no-repeat right 15px center;
             appearance: none;
             -webkit-appearance: none;
@@ -228,83 +227,20 @@
             font-weight: 500;
             cursor: pointer;
             outline: none;
+            flex-grow: 1;
+            min-width: 150px;
         }
 
         .custom-select:hover {
             box-shadow: 0 6px 12px rgba(0,0,0,0.08);
         }
 
-        .vistas-container {
-            display: flex;
-            gap: 5px;
-            background: var(--card-bg);
-            padding: 5px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .btn-vista {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .btn-vista.activo, .btn-vista:hover {
-            background: var(--bg-color);
-            color: var(--text-main);
-        }
-
-        /* Galería BASE */
+        /* Galería BASE NATIVA RESPONSIVE */
         .grid-productos { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
             gap: 20px; 
             padding-bottom: 20px; 
-        }
-
-        /* CLASES DE VISTA CONTROLADAS POR JS */
-        .grid-productos.vista-4 { grid-template-columns: repeat(4, 1fr); }
-        .grid-productos.vista-3 { grid-template-columns: repeat(3, 1fr); }
-        .grid-productos.vista-2 { grid-template-columns: repeat(2, 1fr); }
-        
-        /* Modificación especial para la Lista 1 Columna */
-        .grid-productos.vista-1 { 
-            grid-template-columns: 1fr; 
-        }
-        .grid-productos.vista-1 .card-producto {
-            flex-direction: row;
-            align-items: center;
-            padding: 15px 20px;
-            gap: 20px;
-        }
-        .grid-productos.vista-1 .card-img-container {
-            width: 160px;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-        .grid-productos.vista-1 .card-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .grid-productos.vista-1 .card-actions {
-            margin-top: 0;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: center;
-            min-width: 140px;
-        }
-        .grid-productos.vista-1 .btn-agregar {
-            width: 100%;
         }
 
         /* TARJETAS DE PRODUCTO NORMALES */
@@ -448,22 +384,47 @@
             align-items: center; justify-content: center;
         }
 
-        /* LIGHTBOX ESTILO APPLE */
-        #lightbox-modal { background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
-        #lightbox-modal .modal-content { 
+        /* LIGHTBOX ESTILO APPLE (Usado para imágenes y promoción) */
+        #lightbox-modal, #modal-promo { background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 999999; }
+        #lightbox-modal .modal-content, #modal-promo .modal-content-promo { 
             background: transparent; box-shadow: none; max-width: 95vw; 
-            display: flex; justify-content: center; padding: 0; margin: 0;
+            display: flex; justify-content: center; align-items: center; padding: 0; margin: 0;
             overflow: visible; position: relative;
         }
+        
         #lightbox-img { 
             max-width: 100%; max-height: 85vh; border-radius: 12px; object-fit: contain; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
+
+        /* ESTILOS ESPECÍFICOS PARA EL ENLACE Y LA IMAGEN DE PROMOCIÓN */
+        #promo-link {
+            display: block;
+            position: relative;
+            z-index: 5; 
+        }
+        
+        #modal-promo .modal-content-promo img {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1/1; 
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+            display: block;
+        }
+        #modal-promo .modal-content-promo img:hover {
+            transform: scale(1.02);
+        }
+
+        /* EL BOTÓN DE CERRAR TIPO APPLE */
         .btn-cerrar-lightbox { 
             position: absolute; top: -15px; right: -15px; background: rgba(255,255,255,0.2); 
             color: white; border: none; width: 40px; height: 40px; border-radius: 50%; 
             font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; 
             justify-content: center; z-index: 10; transition: 0.2s; backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         .btn-cerrar-lightbox:hover { background: rgba(255,255,255,0.4); }
 
@@ -491,7 +452,7 @@
         }
         
         @media (max-width: 1024px) { 
-            .grid-productos:not([class*="vista-"]) { grid-template-columns: repeat(3, 1fr); } 
+            .grid-productos { grid-template-columns: repeat(3, 1fr); } 
             
             #logo-text { display: none; } 
             #btn-wa, #btn-ig { display: none; } 
@@ -521,13 +482,8 @@
         }
         
         @media (max-width: 768px) {
-            .grid-productos:not([class*="vista-"]) { grid-template-columns: repeat(2, 1fr); }
+            .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             
-            /* Ajustes para la vista de 1 columna (Lista) en celulares */
-            .grid-productos.vista-1 .card-producto { flex-direction: column; gap: 10px; padding: 15px; }
-            .grid-productos.vista-1 .card-img-container { width: 100%; }
-            .grid-productos.vista-1 .card-actions { align-items: stretch; }
-
             .prod-modal-layout { flex-direction: column; }
             .list-item { flex-wrap: wrap; }
             .list-item-total { width: auto; margin-left: auto; }
@@ -541,11 +497,12 @@
             .hero-btn { font-size: 0.85rem; padding: 8px 15px; }
             
             .btn-cerrar-lightbox { top: 10px; right: 10px; background: rgba(0,0,0,0.5); }
-            #lightbox-modal .modal-content { max-width: 100vw; }
+            #lightbox-modal .modal-content, #modal-promo .modal-content-promo { max-width: 100vw; }
+            #modal-promo .modal-content-promo img { border-radius: 0; } 
         }
         
         @media (max-width: 480px) {
-            .grid-productos:not([class*="vista-"]) { grid-template-columns: 1fr; }
+            .grid-productos { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -595,6 +552,16 @@
         </div>
     </div>
 
+    <!-- MODAL PROMOCIÓN INICIAL -->
+    <div id="modal-promo" class="modal-overlay" onclick="cerrarModal(event, 'modal-promo')">
+        <div class="modal-content-promo">
+            <button class="btn-cerrar-lightbox" onclick="cerrarModalForce('modal-promo')"><i class="fa-solid fa-xmark"></i></button>
+            <a id="promo-link">
+                <img id="promo-img" src="" alt="Promoción">
+            </a>
+        </div>
+    </div>
+
     <section class="hero" id="hero-section">
         <video class="hero-video" src="https://videos.pexels.com/video-files/19378586/19378586-hd_1920_1080_25fps.mp4" autoplay loop muted playsinline></video>
         <div class="hero-content">
@@ -618,6 +585,7 @@
             <p>Sincronizando catálogo...</p>
         </div>
 
+        <!-- BARRA DE HERRAMIENTAS (Dropdowns) -->
         <div class="barra-herramientas" id="barra-herramientas" style="display:none;">
             <div class="filtros-container">
                 <select id="select-categoria" class="custom-select" onchange="filtrarYOrdenar('cat')">
@@ -636,16 +604,9 @@
                     <option value="desc">Más alto primero</option>
                 </select>
             </div>
-            
-            <div class="vistas-container">
-                <button class="btn-vista activo" id="btn-vista-4" onclick="cambiarVista(4)" title="Cuadrícula 4x4"><i class="fa-solid fa-border-all"></i></button>
-                <button class="btn-vista" id="btn-vista-3" onclick="cambiarVista(3)" title="Cuadrícula 3x3"><i class="fa-solid fa-table-cells"></i></button>
-                <button class="btn-vista" id="btn-vista-2" onclick="cambiarVista(2)" title="Lista 2 columnas"><i class="fa-solid fa-table-cells-large"></i></button>
-                <button class="btn-vista" id="btn-vista-1" onclick="cambiarVista(1)" title="Lista 1 columna"><i class="fa-solid fa-list"></i></button>
-            </div>
         </div>
 
-        <div class="grid-productos vista-4" id="galeria"></div>
+        <div class="grid-productos" id="galeria"></div>
 
         <div class="contenedor-ver-mas" id="cont-ver-mas" style="display:none;">
             <button class="btn-ver-mas" onclick="cargarMas()">Ver más...</button>
@@ -698,6 +659,7 @@
         </div>
     </div>
 
+    <!-- LIGHTBOX APPLE STYLE -->
     <div id="lightbox-modal" class="modal-overlay" onclick="cerrarModal(event, 'lightbox-modal')">
         <div class="modal-content">
             <button class="btn-cerrar-lightbox" onclick="cerrarModalForce('lightbox-modal')"><i class="fa-solid fa-xmark"></i></button>
@@ -728,10 +690,19 @@
     </div>
 
     <script>
+        // ==========================================
         // CONFIGURACIÓN PRINCIPAL
+        // ==========================================
         const MOSTRAR_HERO = true;
         const TELEFONO = "593983488809";
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
+
+        // CONFIGURACIÓN DEL POPUP PROMOCIONAL
+        const MOSTRAR_PROMO = true; 
+        const TIENE_ENLACE_PROMO = false; // <-- CAMBIA A TRUE SI QUIERES QUE LA IMAGEN SEA UN BOTÓN CLICKEABLE
+        const URL_IMG_PROMO = "https://www.omnisend.com/blog/wp-content/uploads/2025/02/Bobbe-Active-1.png"; 
+        const URL_LINK_PROMO = "https://hexlayer.com"; 
+        // ==========================================
 
         let baseDatos = [];
         let carrito = [];
@@ -742,6 +713,28 @@
 
         window.onload = () => {
             if (!MOSTRAR_HERO) document.getElementById('hero-section').style.display = 'none';
+
+            // Activar Popup de Promoción
+            if (MOSTRAR_PROMO) {
+                setTimeout(() => {
+                    document.getElementById('promo-img').src = URL_IMG_PROMO;
+                    const promoLink = document.getElementById('promo-link');
+                    
+                    if (TIENE_ENLACE_PROMO && URL_LINK_PROMO.trim() !== "") {
+                        promoLink.href = URL_LINK_PROMO;
+                        promoLink.target = "_blank";
+                        promoLink.style.cursor = "pointer";
+                        promoLink.onclick = () => cerrarModalForce('modal-promo');
+                    } else {
+                        promoLink.removeAttribute("href");
+                        promoLink.removeAttribute("target");
+                        promoLink.style.cursor = "default";
+                        promoLink.onclick = (e) => e.preventDefault(); // Evita que salte hacia arriba
+                    }
+                    
+                    document.getElementById('modal-promo').classList.add('activo');
+                }, 1000); 
+            }
 
             Papa.parse(SHEET_URL, {
                 download: true,
@@ -825,7 +818,6 @@
             baseDatos.forEach(p => {
                 if(p.categoria) p.categoria.split(',').forEach(c => categorias.add(c.trim()));
             });
-            // Ordenar alfabéticamente las categorías
             return Array.from(categorias).sort((a, b) => a.localeCompare(b));
         }
 
@@ -833,7 +825,6 @@
             const select = document.getElementById("select-categoria");
             const categorias = obtenerCategoriasUnicas();
             
-            // Limpiar y mantener opción base
             select.innerHTML = `<option value="Todas">Categorías (Todas)</option>`;
             
             categorias.forEach(cat => {
@@ -843,19 +834,6 @@
             });
         }
 
-        // --- SISTEMA DE VISTAS (Grid Layout) ---
-        function cambiarVista(columnas) {
-            const galeria = document.getElementById("galeria");
-            
-            // Quitar vistas anteriores
-            galeria.classList.remove("vista-4", "vista-3", "vista-2", "vista-1");
-            galeria.classList.add(`vista-${columnas}`);
-            
-            // Cambiar botones activos
-            document.querySelectorAll(".btn-vista").forEach(btn => btn.classList.remove("activo"));
-            document.getElementById(`btn-vista-${columnas}`).classList.add("activo");
-        }
-
         // --- SISTEMA MAESTRO DE FILTRADO Y ORDEN ---
         function filtrarYOrdenar(trigger) {
             const texto = document.getElementById("buscador").value.toLowerCase();
@@ -863,21 +841,18 @@
             const selectAlfa = document.getElementById("select-alfa");
             const selectPrecio = document.getElementById("select-precio");
 
-            // Si mueves Alfabético, el de Precio se resetea para no chocar (y viceversa)
             if (trigger === 'alfa' && selectAlfa.value !== 'default') {
                 selectPrecio.value = 'default';
             } else if (trigger === 'precio' && selectPrecio.value !== 'default') {
                 selectAlfa.value = 'default';
             }
 
-            // 1. Filtrar por texto y categoría
             let resultado = baseDatos.filter(p => {
                 const matchTexto = p.producto.toLowerCase().includes(texto);
                 const matchCat = catSelec === "Todas" || (p.categoria && p.categoria.includes(catSelec));
                 return matchTexto && matchCat;
             });
 
-            // 2. Aplicar el orden
             if (selectAlfa.value === "az") {
                 resultado.sort((a, b) => a.producto.localeCompare(b.producto));
             } else if (selectAlfa.value === "za") {
@@ -887,8 +862,9 @@
             } else if (selectPrecio.value === "desc") {
                 resultado.sort((a, b) => b.precio - a.precio);
             } else {
-                // Orden por defecto (como viene en la hoja original)
-                resultado.sort((a, b) => a.id - b.id);
+                if(selectAlfa.value === "default" && selectPrecio.value === "default") {
+                    resultado.sort((a, b) => a.id - b.id);
+                }
             }
 
             productosFiltrados = resultado;
@@ -1039,12 +1015,9 @@
             sliderImages.forEach((imgSrc, i) => {
                 const img = document.createElement("img");
                 img.src = imgSrc;
-                
-                // CRÍTICO: Eliminar lazy load para que el navegador descargue todo en segundo plano al abrir el modal
                 img.loading = "eager"; 
                 img.decoding = "async";
                 
-                // Click para abrir el lightbox grande
                 img.onclick = () => abrirLightbox(i); 
                 track.appendChild(img);
                 
