@@ -74,7 +74,7 @@
 
         .search-wrapper {
             flex-grow: 1;
-            max-width: 400px; /* AQUÍ ESTABA EL CULPABLE ORIGINAL */
+            max-width: 400px; 
             position: relative;
             display: flex;
             align-items: center;
@@ -228,8 +228,11 @@
         }
         .card-producto:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
 
-        .card-img-container { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px; margin-bottom: 15px; }
-        .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-img-container { 
+            width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px; margin-bottom: 15px; 
+            background: #e5e5ea; /* Placeholder para carga rápida */
+        }
+        .card-img-container img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
 
         .card-info { flex-grow: 1; }
         .card-title { font-size: 1.1rem; font-weight: 600; margin: 0 0 5px 0; }
@@ -240,7 +243,14 @@
             flex-grow: 1; background-color: var(--accent); color: white; border: none; padding: 10px;
             border-radius: 20px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: center;
         }
-        .btn-agregar:hover { background-color: #005bb5; }
+        .btn-agregar:hover:not(:disabled) { background-color: #005bb5; }
+
+        /* Estilo para botón Agotado */
+        .btn-agotado {
+            background-color: #a1a1a6 !important;
+            cursor: not-allowed !important;
+            color: #ffffff;
+        }
 
         .btn-fav {
             background: #f0f0f5; border: none; width: 40px; height: 40px; border-radius: 50%;
@@ -308,26 +318,27 @@
         }
         .btn-cerrar:hover { background: #e5e5ea; }
 
-        /* Pantalla Carga Falsa */
         #loader-pantalla { background: rgba(245, 245, 247, 0.9); z-index: 9999; flex-direction: column; }
         
-        /* Modal Producto Slider Mejorado */
+        /* Modal Producto Slider Nativo (Scroll Snap) */
         .prod-modal-layout { display: flex; gap: 30px; }
         .prod-modal-izq { flex: 1; position: relative; }
         
         .slider-viewport { 
             width: 100%; aspect-ratio: 1/1; border-radius: 15px; overflow: hidden; 
-            position: relative; touch-action: pan-y; cursor: grab;
+            position: relative; background: #e5e5ea;
         }
-        .slider-viewport:active { cursor: grabbing; }
         
         .slider-track {
-            display: flex; width: 100%; height: 100%;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; width: 100%; height: 100%; overflow-x: auto; 
+            scroll-snap-type: x mandatory; scroll-behavior: smooth;
+            scrollbar-width: none; -ms-overflow-style: none; /* Ocultar scrollbar */
         }
+        .slider-track::-webkit-scrollbar { display: none; }
+        
         .slider-track img {
             width: 100%; height: 100%; object-fit: cover; flex-shrink: 0;
-            pointer-events: none;
+            scroll-snap-align: center; cursor: zoom-in;
         }
         
         .slider-dots { 
@@ -352,7 +363,6 @@
             border: none; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex;
             align-items: center; justify-content: center;
         }
-        #btn-modal-agregar:hover { background-color: #005bb5; }
 
         /* Lightbox */
         #lightbox-modal .modal-content { background: transparent; box-shadow: none; max-width: 90vw; display: flex; justify-content: center; overflow: hidden; }
@@ -393,7 +403,7 @@
                 flex-grow: 0; 
                 position: static; 
                 width: auto; 
-                max-width: none; /* ELIMINA EL LIMITE ANTES DE ABRIR */
+                max-width: none;
                 background: transparent; 
                 transform: none; 
                 margin-right: 5px; 
@@ -402,14 +412,14 @@
             .btn-search-mobile { display: flex; }
             .search-input-container { display: none; width: 100%; }
             
-            /* --- EL ARREGLO FINAL Y DEFINITIVO --- */
+            /* BARRA BUSQUEDA RESPONSIVE AL 100% */
             .search-wrapper.active {
                 position: fixed !important; 
                 top: 0 !important; 
                 left: 0 !important; 
-                right: 0 !important; /* Estira desde la izquierda absoluta a la derecha absoluta */
+                right: 0 !important; 
                 width: auto !important; 
-                max-width: none !important; /* BORRA EL LIMITE MÁXIMO DE 400px DEL CÓDIGO BASE */
+                max-width: none !important; 
                 height: var(--header-height) !important; 
                 background-color: #ffffff !important; 
                 z-index: 99999 !important; 
@@ -426,7 +436,7 @@
             .search-wrapper.active .search-input-container { 
                 display: flex !important; 
                 width: 100% !important; 
-                max-width: none !important; /* TAMBIÉN LIBERA EL INPUT INTERNO */
+                max-width: none !important; 
                 align-items: center !important;
             }
             
@@ -504,13 +514,13 @@
         </div>
     </div>
 
-    <section class="hero">
+    <section class="hero" id="hero-section">
         <video class="hero-video" src="https://videos.pexels.com/video-files/19378586/19378586-hd_1920_1080_25fps.mp4" autoplay loop muted playsinline></video>
         <div class="hero-content">
             <div class="hero-title-container">
                 <h1 class="hero-title">Hexlayer 3D</h1>
             </div>
-            <p class="hero-subtitle">Transforma conceptos En objetos extraordinarios</p>
+            <p class="hero-subtitle">Transforma conceptos en objetos extraordinarios</p>
             <div class="hero-buttons">
                 <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-envelope"></i> Contacto</a>
                 <a href="#" target="_blank" class="hero-btn"><i class="fa-solid fa-truck"></i> Envíos</a>
@@ -542,7 +552,7 @@
     <footer>
         <div class="footer-top">
             <div class="footer-profile">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhntG8mlrze8p0sML1RaTYXdXr7b-0Cmb118V373urFfLqTM24YZYL2LTXxUENVe5cN40B_YwjDGZeB_14Hlrn82EJZfE6pFVzsaO-B8mdJpYVHHi1MUHRLzOznMQbBZWCWSe7Ag4vegIY-NfOVRltiILY-oH6C6IVY0Or7w9ZvApoi2A/s1600/cesar2.png" alt="César Aguilar" class="footer-avatar">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhntG8mlrze8p0sML1RaTYXdXr7b-0Cmb118V373urFfLqTM24YZYL2LTXxUENVe5cN40B_YwjDGZeB_14Hlrn82EJZfE6pFVzsaO-B8mdJpYVHHi1MUHRLzOznMQbBZWCWSe7Ag4vegIY-NfOVRltiILY-oH6C6IVY0Or7w9ZvApoi2A/s1600/cesar2.png" alt="César Aguilar" class="footer-avatar" loading="lazy">
                 <div class="footer-profile-info">
                     <h4>César Aguilar</h4>
                     <p>Mi pasión es dar forma física a la creatividad,</p><p> convirtiendo conceptos en realidad.</p>
@@ -570,7 +580,7 @@
             <button class="btn-cerrar" onclick="cerrarModalForce('modal-producto')"><i class="fa-solid fa-xmark"></i></button>
             <div class="prod-modal-layout">
                 <div class="prod-modal-izq">
-                    <div class="slider-viewport" id="slider-viewport" onmouseenter="pausarSlider()" onmouseleave="reanudarSlider()">
+                    <div class="slider-viewport" id="slider-viewport">
                         <div class="slider-track" id="slider-track"></div>
                         <div class="slider-dots" id="slider-dots"></div>
                     </div>
@@ -616,22 +626,26 @@
     </div>
 
     <script>
+        // CONFIGURACIÓN PRINCIPAL
+        const MOSTRAR_HERO = true; // Cambia a "false" si quieres ocultar el video y título grande
+        const TELEFONO = "593983488809";
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
+
         let baseDatos = [];
         let carrito = [];
         let favoritos = [];
         let categoriaFiltro = "Todas";
         let limiteMostrado = 16;
         let productosFiltrados = [];
-        
-        const TELEFONO = "593983488809";
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
-
         let sliderImages = [];
         let sliderIndex = 0;
-        let sliderInterval = null;
-        const TIEMPO_SLIDER = 10000;
 
         window.onload = () => {
+            // Activar/Desactivar Hero
+            if (!MOSTRAR_HERO) {
+                document.getElementById('hero-section').style.display = 'none';
+            }
+
             Papa.parse(SHEET_URL, {
                 download: true,
                 header: true,
@@ -639,8 +653,14 @@
                     document.getElementById('mensaje-carga').style.display = 'none';
                     document.getElementById('seccion-categorias').style.display = 'flex';
 
+                    // LÓGICA DE ESTADO (Invisible y Agotado)
                     baseDatos = results.data
-                        .filter(row => row.PRODUCTO && row.PRODUCTO.trim() !== '')
+                        .filter(row => {
+                            if (!row.PRODUCTO || row.PRODUCTO.trim() === '') return false;
+                            const estado = row.ESTADO ? row.ESTADO.trim().toLowerCase() : "";
+                            // Si el estado es "invisible", ignoramos el producto
+                            return estado !== "invisible";
+                        })
                         .map((row, index) => {
                             let precioLimpio = (row.PRECIO || "0").toString().replace('$', '').replace(',', '.').trim();
                             let imgRaw = row.IMG || "https://via.placeholder.com/500";
@@ -653,7 +673,8 @@
                                 categoria: row.CATEGORIA || "",
                                 descripcion: row.DESCRIPCION || "",
                                 imgArray: arrayImg,
-                                precio: parseFloat(precioLimpio) || 0
+                                precio: parseFloat(precioLimpio) || 0,
+                                estado: row.ESTADO ? row.ESTADO.trim().toLowerCase() : "disponible"
                             };
                         });
 
@@ -758,18 +779,25 @@
             productosAMostrar.forEach(p => {
                 const primeraImg = p.imgArray[0];
                 const esFav = favoritos.includes(p.id) ? 'activo' : '';
+                const esAgotado = p.estado === 'agotado';
                 
+                // Lógica Visual del Botón según Estado
+                const btnHtml = esAgotado 
+                    ? `<button class="btn-agregar btn-agotado" onclick="event.stopPropagation();" disabled>Agotado</button>`
+                    : `<button class="btn-agregar" onclick="event.stopPropagation(); agregarAlCarrito(${p.id})">Agregar</button>`;
+                
+                // Carga ultrarrápida: lazy loading añadido
                 contenedor.innerHTML += `
                     <div class="card-producto" onclick="abrirProducto(${p.id})">
                         <div class="card-img-container">
-                            <img src="${primeraImg}" alt="${p.producto}">
+                            <img src="${primeraImg}" alt="${p.producto}" loading="lazy" decoding="async">
                         </div>
                         <div class="card-info">
                             <h3 class="card-title">${p.producto}</h3>
                             <p class="card-price">$${p.precio.toFixed(2)}</p>
                         </div>
                         <div class="card-actions">
-                            <button class="btn-agregar" onclick="event.stopPropagation(); agregarAlCarrito(${p.id})">Agregar</button>
+                            ${btnHtml}
                             <button class="btn-fav ${esFav}" onclick="event.stopPropagation(); toggleCorazon(${p.id}, this)"><i class="fa-solid fa-heart"></i></button>
                         </div>
                     </div>
@@ -832,15 +860,20 @@
                 const p = baseDatos.find(x => x.id === id);
                 if(!p) return;
                 const primeraImg = p.imgArray[0];
+                const esAgotado = p.estado === 'agotado';
+
+                const btnHtml = esAgotado 
+                    ? `<button class="btn-agregar btn-agotado" style="width: 120px; padding: 8px 15px; flex-grow: 0; flex-shrink: 0;" disabled>Agotado</button>`
+                    : `<button class="btn-agregar" style="width: 120px; padding: 8px 15px; flex-grow: 0; flex-shrink: 0;" onclick="agregarAlCarrito(${p.id})">Añadir</button>`;
 
                 container.innerHTML += `
                     <div class="list-item">
-                        <img src="${primeraImg}" class="list-item-img" onclick="cerrarModalForce('modal-favoritos'); abrirProducto(${p.id})">
+                        <img src="${primeraImg}" class="list-item-img" loading="lazy" onclick="cerrarModalForce('modal-favoritos'); abrirProducto(${p.id})">
                         <div class="list-item-info" onclick="cerrarModalForce('modal-favoritos'); abrirProducto(${p.id})">
                             <h4 class="list-item-title" title="${p.producto}">${p.producto}</h4>
                             <p class="list-item-price">$${p.precio.toFixed(2)}</p>
                         </div>
-                        <button class="btn-agregar" style="width: 120px; padding: 8px 15px; flex-grow: 0; flex-shrink: 0;" onclick="agregarAlCarrito(${p.id})">Añadir</button>
+                        ${btnHtml}
                         <button class="list-item-remove" onclick="toggleCorazon(${p.id}, null); renderizarFavoritos(); renderizarProductos(productosFiltrados);"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                 `;
@@ -863,124 +896,88 @@
                 });
             }
 
-            document.getElementById("btn-modal-agregar").onclick = () => {
-                agregarAlCarrito(p.id);
-                cerrarModalForce('modal-producto');
-            };
+            // Lógica de Botón Modal (Agotado vs Disponible)
+            const btnModal = document.getElementById("btn-modal-agregar");
+            if (p.estado === 'agotado') {
+                btnModal.textContent = "Agotado";
+                btnModal.classList.add("btn-agotado");
+                btnModal.disabled = true;
+                btnModal.onclick = null;
+            } else {
+                btnModal.textContent = "Agregar al carrito";
+                btnModal.classList.remove("btn-agotado");
+                btnModal.disabled = false;
+                btnModal.onclick = () => {
+                    agregarAlCarrito(p.id);
+                    cerrarModalForce('modal-producto');
+                };
+            }
 
             sliderImages = p.imgArray;
             sliderIndex = 0;
             
             generarEstructuraSlider();
-            actualizarSlider();
-            pausarSlider();
-            reanudarSlider();
-
             document.getElementById("modal-producto").classList.add("activo");
         }
 
+        // --- SLIDER NATIVO MEJORADO ---
         function generarEstructuraSlider() {
             const track = document.getElementById("slider-track");
             const dotsDiv = document.getElementById("slider-dots");
             
             track.innerHTML = "";
             dotsDiv.innerHTML = "";
+            // Resetear scroll siempre al inicio al abrir
+            track.scrollLeft = 0; 
             
             sliderImages.forEach((imgSrc, i) => {
                 const img = document.createElement("img");
                 img.src = imgSrc;
-                img.onclick = (e) => {
-                    if (!isDragging) abrirLightbox();
-                };
+                // Carga ultrarrápida: La primera imagen carga de golpe, las siguientes esperan
+                img.loading = i === 0 ? "eager" : "lazy";
+                img.decoding = "async";
+                
+                img.onclick = () => abrirLightbox(i); 
                 track.appendChild(img);
                 
                 if (sliderImages.length > 1) {
                     dotsDiv.style.display = "flex";
-                    dotsDiv.innerHTML += `<div class="dot ${i === 0 ? 'activo' : ''}" onclick="event.stopPropagation(); irAImagen(${i})"></div>`;
+                    dotsDiv.innerHTML += `<div class="dot ${i === 0 ? 'activo' : ''}" onclick="irAImagen(${i})"></div>`;
                 } else {
                     dotsDiv.style.display = "none";
                 }
             });
-        }
 
-        function actualizarSlider() {
-            const track = document.getElementById("slider-track");
-            const dotsDiv = document.getElementById("slider-dots");
-            
-            track.style.transform = `translateX(-${sliderIndex * 100}%)`;
-            
-            if (sliderImages.length > 1) {
+            // Actualizar bolitas automáticamente basado en el scroll físico del usuario
+            track.onscroll = () => {
+                const width = track.clientWidth;
+                // Redondear para saber en qué imagen estamos ubicados
+                sliderIndex = Math.round(track.scrollLeft / width);
+                
                 Array.from(dotsDiv.children).forEach((dot, i) => {
                     dot.className = `dot ${i === sliderIndex ? 'activo' : ''}`;
                 });
-            }
+            };
         }
 
-        function siguienteImagen() { 
-            sliderIndex = (sliderIndex + 1) % sliderImages.length; 
-            actualizarSlider(); 
+        // Hacer click en un dot
+        function irAImagen(index) { 
+            const track = document.getElementById("slider-track");
+            track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
         }
-        function anteriorImagen() { 
-            sliderIndex = (sliderIndex - 1 + sliderImages.length) % sliderImages.length; 
-            actualizarSlider(); 
-        }
-        function irAImagen(index) { sliderIndex = index; actualizarSlider(); }
-        
-        function pausarSlider() { if(sliderInterval) clearInterval(sliderInterval); }
-        function reanudarSlider() { if (sliderImages.length > 1) sliderInterval = setInterval(siguienteImagen, TIEMPO_SLIDER); }
 
-        function abrirLightbox() { 
-            document.getElementById("lightbox-img").src = sliderImages[sliderIndex]; 
+        function abrirLightbox(index) { 
+            document.getElementById("lightbox-img").src = sliderImages[index]; 
             document.getElementById("lightbox-modal").classList.add("activo"); 
         }
 
-        const sliderViewport = document.getElementById('slider-viewport');
-        let startX = 0, currentX = 0;
-        let isDragging = false;
-
-        sliderViewport.addEventListener('touchstart', touchStart);
-        sliderViewport.addEventListener('touchmove', touchMove);
-        sliderViewport.addEventListener('touchend', touchEnd);
-        
-        sliderViewport.addEventListener('mousedown', touchStart);
-        sliderViewport.addEventListener('mousemove', touchMove);
-        sliderViewport.addEventListener('mouseup', touchEnd);
-        sliderViewport.addEventListener('mouseleave', () => { if(isDragging) touchEnd(event); });
-
-        function touchStart(e) {
-            if(sliderImages.length <= 1) return;
-            isDragging = false;
-            pausarSlider();
-            startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-        }
-
-        function touchMove(e) {
-            if(sliderImages.length <= 1 || startX === 0) return;
-            currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-            const diff = startX - currentX;
-            if(Math.abs(diff) > 10) isDragging = true;
-        }
-
-        function touchEnd(e) {
-            if(sliderImages.length <= 1 || startX === 0) return;
-            
-            const diff = startX - currentX;
-            if(Math.abs(diff) > 50 && isDragging) {
-                if(diff > 0) siguienteImagen(); 
-                else anteriorImagen(); 
-            }
-            
-            startX = 0; currentX = 0;
-            setTimeout(() => { isDragging = false; }, 50); 
-            reanudarSlider();
-        }
-
+        // Modales
         function cerrarModal(e, id) { if (e.target.id === id) cerrarModalForce(id); }
         function cerrarModalForce(id) {
             document.getElementById(id).classList.remove("activo");
-            if(id === 'modal-producto') pausarSlider();
         }
 
+        // --- CARRITO ---
         function agregarAlCarrito(id) {
             const prod = baseDatos.find(p => p.id === id);
             const itemExistente = carrito.find(i => i.id === id);
@@ -1038,7 +1035,7 @@
 
                 container.innerHTML += `
                     <div class="list-item">
-                        <img src="${item.img}" class="list-item-img" onclick="cerrarModalForce('modal-carrito'); abrirProducto(${item.id})">
+                        <img src="${item.img}" class="list-item-img" loading="lazy" onclick="cerrarModalForce('modal-carrito'); abrirProducto(${item.id})">
                         <div class="list-item-info" onclick="cerrarModalForce('modal-carrito'); abrirProducto(${item.id})">
                             <h4 class="list-item-title" title="${item.nombre}">${item.nombre}</h4>
                             <p class="list-item-price">$${item.precio.toFixed(2)} c/u</p>
