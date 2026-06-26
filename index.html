@@ -482,6 +482,7 @@
         }
         
         @media (max-width: 768px) {
+            /* CAMBIO A 2 COLUMNAS EN MOVILES */
             .grid-productos { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             
             .prod-modal-layout { flex-direction: column; }
@@ -502,7 +503,12 @@
         }
         
         @media (max-width: 480px) {
-            .grid-productos { grid-template-columns: 1fr; }
+            /* SE MANTIENEN LAS 2 COLUMNAS TAMBIÉN EN PANTALLAS MÁS PEQUEÑAS */
+            .grid-productos { grid-template-columns: repeat(2, 1fr); }
+            /* Se hace el texto un poco más pequeño para acomodar las 2 columnas en celulares pequeños */
+            .card-title { font-size: 0.95rem; }
+            .card-price { font-size: 0.9rem; }
+            .btn-agregar { font-size: 0.85rem; padding: 8px; }
         }
     </style>
 </head>
@@ -552,7 +558,6 @@
         </div>
     </div>
 
-    <!-- MODAL PROMOCIÓN INICIAL -->
     <div id="modal-promo" class="modal-overlay" onclick="cerrarModal(event, 'modal-promo')">
         <div class="modal-content-promo">
             <button class="btn-cerrar-lightbox" onclick="cerrarModalForce('modal-promo')"><i class="fa-solid fa-xmark"></i></button>
@@ -585,7 +590,6 @@
             <p>Sincronizando catálogo...</p>
         </div>
 
-        <!-- BARRA DE HERRAMIENTAS (Dropdowns) -->
         <div class="barra-herramientas" id="barra-herramientas" style="display:none;">
             <div class="filtros-container">
                 <select id="select-categoria" class="custom-select" onchange="filtrarYOrdenar('cat')">
@@ -614,8 +618,8 @@
     </div>
 
     <footer>
-        <div class="footer-top">
-            <div class="footer-profile">
+        <div class="footer-top" id="footer-top-section">
+            <div class="footer-profile" id="footer-profile-section">
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhntG8mlrze8p0sML1RaTYXdXr7b-0Cmb118V373urFfLqTM24YZYL2LTXxUENVe5cN40B_YwjDGZeB_14Hlrn82EJZfE6pFVzsaO-B8mdJpYVHHi1MUHRLzOznMQbBZWCWSe7Ag4vegIY-NfOVRltiILY-oH6C6IVY0Or7w9ZvApoi2A/s1600/cesar2.png" alt="César Aguilar" class="footer-avatar" loading="lazy">
                 <div class="footer-profile-info">
                     <h4>César Aguilar</h4>
@@ -659,7 +663,6 @@
         </div>
     </div>
 
-    <!-- LIGHTBOX APPLE STYLE -->
     <div id="lightbox-modal" class="modal-overlay" onclick="cerrarModal(event, 'lightbox-modal')">
         <div class="modal-content">
             <button class="btn-cerrar-lightbox" onclick="cerrarModalForce('lightbox-modal')"><i class="fa-solid fa-xmark"></i></button>
@@ -694,12 +697,14 @@
         // CONFIGURACIÓN PRINCIPAL
         // ==========================================
         const MOSTRAR_HERO = true;
+        const MOSTRAR_FOOTER_TOP = true; 
+        const MOSTRAR_PERFIL_FOOTER = true; // <-- NUEVO: TRUE PARA MOSTRAR FOTO/NOMBRE, FALSE PARA OCULTARLOS
         const TELEFONO = "593983488809";
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
 
         // CONFIGURACIÓN DEL POPUP PROMOCIONAL
         const MOSTRAR_PROMO = true; 
-        const TIENE_ENLACE_PROMO = false; // <-- CAMBIA A TRUE SI QUIERES QUE LA IMAGEN SEA UN BOTÓN CLICKEABLE
+        const TIENE_ENLACE_PROMO = false; 
         const URL_IMG_PROMO = "https://www.omnisend.com/blog/wp-content/uploads/2025/02/Bobbe-Active-1.png"; 
         const URL_LINK_PROMO = "https://hexlayer.com"; 
         // ==========================================
@@ -713,8 +718,9 @@
 
         window.onload = () => {
             if (!MOSTRAR_HERO) document.getElementById('hero-section').style.display = 'none';
+            if (!MOSTRAR_FOOTER_TOP) document.getElementById('footer-top-section').style.display = 'none';
+            if (!MOSTRAR_PERFIL_FOOTER) document.getElementById('footer-profile-section').style.display = 'none';
 
-            // Activar Popup de Promoción
             if (MOSTRAR_PROMO) {
                 setTimeout(() => {
                     document.getElementById('promo-img').src = URL_IMG_PROMO;
@@ -729,7 +735,7 @@
                         promoLink.removeAttribute("href");
                         promoLink.removeAttribute("target");
                         promoLink.style.cursor = "default";
-                        promoLink.onclick = (e) => e.preventDefault(); // Evita que salte hacia arriba
+                        promoLink.onclick = (e) => e.preventDefault(); 
                     }
                     
                     document.getElementById('modal-promo').classList.add('activo');
