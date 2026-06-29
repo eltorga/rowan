@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Hexlayer</title>
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/a/AVvXsEhKi5Sf-Logd4OChKYtf9lAdksDkk95jseoaKvVMJDVETF4zaEwlQijKq_EKTQqUsrUGZkOU2ePkLaQ_mWo5l56J-BRt2Bbk3zobGlsZWMZ44J3HXRl4stLYcxwm0oEeEtTrtvwbCzaKjHZmw4N-ZhsTkMRyOmem0dWaXEOc5UEINLxm5w5P2jZVPw439s">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
@@ -698,7 +699,7 @@
         // ==========================================
         const MOSTRAR_HERO = true;
         const MOSTRAR_FOOTER_TOP = true; 
-        const MOSTRAR_PERFIL_FOOTER = true; // <-- NUEVO: TRUE PARA MOSTRAR FOTO/NOMBRE, FALSE PARA OCULTARLOS
+        const MOSTRAR_PERFIL_FOOTER = true; 
         const TELEFONO = "593983488809";
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AJ43E9WwSsqacGPlVWsWkI6b31l_0YTq7QWpncRR8Og/export?format=csv";
 
@@ -710,16 +711,28 @@
         // ==========================================
 
         let baseDatos = [];
-        let carrito = [];
-        let favoritos = [];
         let limiteMostrado = 16;
         let productosFiltrados = [];
         let sliderImages = [];
+        
+        // RECUPERAR DATOS LOCALES AL INICIAR
+        let carrito = JSON.parse(localStorage.getItem('hex_carrito')) || [];
+        let favoritos = JSON.parse(localStorage.getItem('hex_favoritos')) || [];
+
+        // GUARDAR DATOS LOCALES
+        function guardarDatosLocales() {
+            localStorage.setItem('hex_carrito', JSON.stringify(carrito));
+            localStorage.setItem('hex_favoritos', JSON.stringify(favoritos));
+        }
 
         window.onload = () => {
             if (!MOSTRAR_HERO) document.getElementById('hero-section').style.display = 'none';
             if (!MOSTRAR_FOOTER_TOP) document.getElementById('footer-top-section').style.display = 'none';
             if (!MOSTRAR_PERFIL_FOOTER) document.getElementById('footer-profile-section').style.display = 'none';
+
+            // Actualizar iconos con los datos recuperados de LocalStorage
+            actualizarIconoCarrito();
+            actualizarIconoFavoritos();
 
             if (MOSTRAR_PROMO) {
                 setTimeout(() => {
@@ -773,7 +786,31 @@
                         });
 
                     generarDropdownCategorias();
-                    filtrarYOrdenar('inicio');
+                    
+                    // LECTURA DE URL (Deep Linking)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const catUrl = urlParams.get('cat');
+                    const prodUrl = urlParams.get('prod');
+
+                    if (catUrl) {
+                        const select = document.getElementById('select-categoria');
+                        // Validar si la categoría existe
+                        if (Array.from(select.options).some(opt => opt.value === catUrl)) {
+                            select.value = catUrl;
+                        }
+                        filtrarYOrdenar('cat');
+                    } else {
+                        filtrarYOrdenar('inicio');
+                    }
+
+                    if (prodUrl) {
+                        const prodId = parseInt(prodUrl);
+                        setTimeout(() => {
+                            if (baseDatos.find(p => p.id === prodId)) {
+                                abrirProducto(prodId);
+                            }
+                        }, 200);
+                    }
                 },
                 error: function(err) {
                     document.getElementById('mensaje-carga').innerHTML = "<p style='color:red;'>Error al conectar con la base de datos.</p>";
@@ -818,7 +855,6 @@
             }, 600);
         }
 
-        // --- SISTEMA DE DROPDOWN DE CATEGORÍAS ---
         function obtenerCategoriasUnicas() {
             let categorias = new Set();
             baseDatos.forEach(p => {
@@ -840,12 +876,19 @@
             });
         }
 
-        // --- SISTEMA MAESTRO DE FILTRADO Y ORDEN ---
         function filtrarYOrdenar(trigger) {
             const texto = document.getElementById("buscador").value.toLowerCase();
             const catSelec = document.getElementById("select-categoria").value;
             const selectAlfa = document.getElementById("select-alfa");
             const selectPrecio = document.getElementById("select-precio");
+
+            // ACTUALIZAR URL AL CAMBIAR CATEGORÍA
+            if (trigger === 'cat' || trigger === 'inicio' || trigger === 'search') {
+                const newUrl = new URL(window.location);
+                if (catSelec !== "Todas") newUrl.searchParams.set('cat', catSelec);
+                else newUrl.searchParams.delete('cat');
+                window.history.pushState({}, '', newUrl);
+            }
 
             if (trigger === 'alfa' && selectAlfa.value !== 'default') {
                 selectPrecio.value = 'default';
@@ -929,6 +972,7 @@
                 favoritos.splice(index, 1);
                 if(btnElement) btnElement.classList.remove('activo');
             }
+            guardarDatosLocales();
             actualizarIconoFavoritos();
             if(document.getElementById("modal-favoritos").classList.contains("activo")) renderizarFavoritos();
         }
@@ -1006,6 +1050,12 @@
 
             sliderImages = p.imgArray;
             generarEstructuraSlider();
+            
+            // ACTUALIZAR URL PARA ENLACE DEL PRODUCTO
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('prod', p.id);
+            window.history.pushState({}, '', newUrl);
+
             document.getElementById("modal-producto").classList.add("activo");
         }
 
@@ -1057,7 +1107,16 @@
 
         // Modales
         function cerrarModal(e, id) { if (e.target.id === id) cerrarModalForce(id); }
-        function cerrarModalForce(id) { document.getElementById(id).classList.remove("activo"); }
+        function cerrarModalForce(id) { 
+            document.getElementById(id).classList.remove("activo"); 
+            
+            // LIMPIAR URL AL CERRAR MODAL PRODUCTO
+            if (id === 'modal-producto') {
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.delete('prod');
+                window.history.pushState({}, '', newUrl);
+            }
+        }
 
         // --- CARRITO ---
         function agregarAlCarrito(id) {
@@ -1074,6 +1133,7 @@
                     cantidad: 1
                 });
             }
+            guardarDatosLocales();
             actualizarIconoCarrito();
         }
 
@@ -1137,12 +1197,17 @@
             if (item) {
                 item.cantidad += cambio;
                 if (item.cantidad <= 0) eliminarDelCarrito(id);
-                else { renderizarCarrito(); actualizarIconoCarrito(); }
+                else { 
+                    guardarDatosLocales();
+                    renderizarCarrito(); 
+                    actualizarIconoCarrito(); 
+                }
             }
         }
 
         function eliminarDelCarrito(id) {
             carrito = carrito.filter(i => i.id !== id);
+            guardarDatosLocales();
             renderizarCarrito();
             actualizarIconoCarrito();
         }
