@@ -725,12 +725,19 @@
             localStorage.setItem('hex_favoritos', JSON.stringify(favoritos));
         }
 
+        // CREAR URL AMIGABLE (SLUG)
+        function crearSlug(texto) {
+            return texto.toString().toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Eliminar tildes
+                .replace(/[^a-z0-9]+/g, '-') // Reemplazar espacios y caracteres raros por guiones
+                .replace(/(^-|-$)+/g, ''); // Quitar guiones al inicio o al final
+        }
+
         window.onload = () => {
             if (!MOSTRAR_HERO) document.getElementById('hero-section').style.display = 'none';
             if (!MOSTRAR_FOOTER_TOP) document.getElementById('footer-top-section').style.display = 'none';
             if (!MOSTRAR_PERFIL_FOOTER) document.getElementById('footer-profile-section').style.display = 'none';
 
-            // Actualizar iconos con los datos recuperados de LocalStorage
             actualizarIconoCarrito();
             actualizarIconoFavoritos();
 
@@ -774,8 +781,12 @@
                             let arrayImg = imgRaw.split(/[,;\n|]+/).map(url => url.trim()).filter(url => url !== "");
                             if(arrayImg.length === 0) arrayImg = ["https://via.placeholder.com/500"];
                             
+                            // DETERMINAR EL IDENTIFICADOR ÚNICO (Slug o SKU)
+                            let idUnico = row.SKU && row.SKU.trim() !== "" ? crearSlug(row.SKU) : crearSlug(row.PRODUCTO);
+                            
                             return {
                                 id: index + 1,
+                                slug: idUnico, // Nuevo campo para la URL
                                 producto: row.PRODUCTO,
                                 categoria: row.CATEGORIA || "",
                                 descripcion: row.DESCRIPCION || "",
@@ -787,14 +798,13 @@
 
                     generarDropdownCategorias();
                     
-                    // LECTURA DE URL (Deep Linking)
+                    // LECTURA DE URL (Deep Linking por Slug)
                     const urlParams = new URLSearchParams(window.location.search);
                     const catUrl = urlParams.get('cat');
                     const prodUrl = urlParams.get('prod');
 
                     if (catUrl) {
                         const select = document.getElementById('select-categoria');
-                        // Validar si la categoría existe
                         if (Array.from(select.options).some(opt => opt.value === catUrl)) {
                             select.value = catUrl;
                         }
@@ -804,10 +814,11 @@
                     }
 
                     if (prodUrl) {
-                        const prodId = parseInt(prodUrl);
                         setTimeout(() => {
-                            if (baseDatos.find(p => p.id === prodId)) {
-                                abrirProducto(prodId);
+                            // Buscar el producto por su Slug único en lugar de su número de fila
+                            const productoEncontrado = baseDatos.find(p => p.slug === prodUrl);
+                            if (productoEncontrado) {
+                                abrirProducto(productoEncontrado.id);
                             }
                         }, 200);
                     }
@@ -1051,9 +1062,9 @@
             sliderImages = p.imgArray;
             generarEstructuraSlider();
             
-            // ACTUALIZAR URL PARA ENLACE DEL PRODUCTO
+            // ACTUALIZAR URL PARA ENLACE DEL PRODUCTO USANDO EL SLUG
             const newUrl = new URL(window.location);
-            newUrl.searchParams.set('prod', p.id);
+            newUrl.searchParams.set('prod', p.slug);
             window.history.pushState({}, '', newUrl);
 
             document.getElementById("modal-producto").classList.add("activo");
